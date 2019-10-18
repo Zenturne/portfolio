@@ -4,19 +4,12 @@ from django.core.validators import RegexValidator
 
 # Create your models here.
 
-# Values
 
-FU = 'fu'
-OP = 'op'
-ZL = 'zb'
-
-
-# Choices
 
 TYPE_CHOICES = [
-    (FU, 'fundacja'),
-    (OP, 'organizacja pozarządowa'),
-    (ZL, 'zbiórka lokalna'),
+    (1, 'fundacja'),
+    (2, 'organizacja pozarządowa'),
+    (3, 'zbiórka lokalna'),
 ]
 
 
@@ -27,8 +20,10 @@ class Category(models.Model):
 class Institution(models.Model):
     name = models.CharField(max_length=120)
     description = models.TextField(max_length=400, blank=True, null=True)
-    type = models.CharField(max_length=24, choices=TYPE_CHOICES)
-    categories = models.ManyToManyField(Category)
+    type = models.IntegerField(choices=TYPE_CHOICES)
+    categories = models.ManyToManyField(Category, blank=True)
+
+    
 
 class Donation(models.Model):
     telephone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$')
